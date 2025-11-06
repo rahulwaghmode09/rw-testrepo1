@@ -1,0 +1,9 @@
+---
+- name: Hello World IA
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Print Hello World
+      ansible.builtin.debug:
+        msg: Hello World! This is a simple Ansible playbook created for testing rw
