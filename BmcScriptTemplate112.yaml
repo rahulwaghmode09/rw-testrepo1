@@ -1,0 +1,9 @@
+---
+- name: Deploy web application
+  hosts: all
+  vars:
+    app_version: "1.0.0"
+  tasks:
+    - name: Show where we are deploying
+      debug:
+        msg: "Deploying version {{ app_version }} to {{ inventory_hostname }}"
