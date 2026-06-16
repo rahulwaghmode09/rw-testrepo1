@@ -1,0 +1,9 @@
+- name: Update affected packages on Red Hat Enterprise Linux 7
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update the affected packages
+      yum:
+        name: affected_package_name
+        state: latest
+      when: ansible_os_family == "RedHat"
