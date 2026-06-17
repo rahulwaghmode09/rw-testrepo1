@@ -1,0 +1,13 @@
+- name: Install update on Windows Server 2016
+  hosts: windows
+  become: yes
+  tasks:
+    - name: Navigate to the directory where the update file is located
+      shell: cd "C:\path\to\update\file"
+      args:
+        chdir: C:\path\to\update\file
+
+    - name: Install the update
+      shell: msiexec /i <update_file>
+      args:
+        chdir: C:\path\to\update\file
