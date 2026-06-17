@@ -1,0 +1,11 @@
+- name: Install update on Windows Server 2016
+  hosts: windows
+  tasks:
+    - name: Navigate to the directory where the update file is located
+      command: "cd C:\\path\\to\\update\\file"
+      args:
+        chdir: C:\path\to\update\file
+
+    - name: Install the update using msiexec
+      command: "msiexec /i update_file.msi"
+      when: ansible_os_family == "Windows"
