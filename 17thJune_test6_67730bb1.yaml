@@ -1,0 +1,12 @@
+- name: Install update on Windows Server 2022
+  hosts: windows
+  tasks:
+    - name: Navigate to the directory where the update file is located
+      shell: cd C:\path\to\update\directory
+      args:
+        chdir: C:\path\to\update\directory
+
+    - name: Install the update using msiexec
+      shell: msiexec /i <update_file_name>
+      args:
+        chdir: C:\path\to\update\directory
