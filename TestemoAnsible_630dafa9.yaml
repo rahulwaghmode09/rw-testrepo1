@@ -1,0 +1,17 @@
+- name: Install update on Red Hat Enterprise Linux 7
+  hosts: all
+  become: yes
+  tasks:
+    - name: Check if the update file exists
+      shell: "ls -l /path/to/update_file"
+      register: update_file_check
+      ignore_errors: yes
+
+    - name: Install the update using yum
+      shell: "sudo yum install -y <update_file>"
+      when: "'update_file_check.stdout' != ''"
+
+    - name: Notify if update file is not found
+      debug:
+        msg: "Update file not found in the specified directory."
+      when: "'update_file_check.stdout' == ''"
