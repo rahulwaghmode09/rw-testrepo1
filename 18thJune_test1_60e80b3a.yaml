@@ -1,0 +1,10 @@
+- name: Install update on Windows Server 2016
+  hosts: windows
+  tasks:
+    - name: Check if the update file exists
+      win_shell: test -f <update_file>
+      register: file_exists
+
+    - name: Install the update
+      win_shell: msiexec /i <update_file>
+      when: file_exists.stdout == "True"
