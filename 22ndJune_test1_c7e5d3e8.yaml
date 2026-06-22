@@ -1,0 +1,25 @@
+- name: Upgrade httpd package on RHEL 7 system
+  hosts: all
+  become: yes
+  tasks:
+    - name: Check if httpd package is installed
+      shell: "rpm -q httpd"
+      register: httpd_installed
+      ignore_errors: yes
+
+    - name: Upgrade httpd package if installed
+      shell: "yum update httpd -y"
+      when: httpd_installed.rc == 0
+
+    - name: Restart httpd service
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Verify httpd service status
+      shell: "systemctl status httpd"
+      register: httpd_status
+
+    - name: Display httpd service status
+      debug:
+        msg: "httpd service status: {{ httpd_status.stdout }}"
