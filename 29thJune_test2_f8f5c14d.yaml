@@ -1,4 +1,4 @@
-- name: Install update on Window Server 2016
+- name: Install update on Windows Server 2016
   hosts: windows
   tasks:
     - name: Navigate to the directory where the update file is located
