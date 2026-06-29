@@ -1,0 +1,13 @@
+- name: Install update on Windows Server 2019
+  hosts: windows
+  tasks:
+    - name: Navigate to the directory where the update file is located
+      ansible.windows.win_shell:
+        cmd: cd C:\path\to\update\directory
+      register: update_directory
+
+    - name: Install the update
+      ansible.windows.win_shell:
+        cmd: msiexec /i <update_file>
+      environment:
+        UPDATE_FILE: "{{ update_directory.stdout }}"
