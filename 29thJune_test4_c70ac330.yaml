@@ -1,0 +1,26 @@
+- name: Update Adobe Substance 3D Designer on Red Hat Enterprise Linux 7
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure system is updated
+      yum:
+        update_state: present
+
+    - name: Download Adobe Substance 3D Designer update
+      get_url:
+        url: https://example.com/adobe-substance-3d-designer-update.rpm
+        dest: /tmp/adobe-substance-3d-designer-update.rpm
+
+    - name: Install updated version of Adobe Substance 3D Designer
+      rpm:
+        name: /tmp/adobe-substance-3d-designer-update.rpm
+        state: present
+
+    - name: Restart Adobe Substance 3D Designer service
+      service:
+        name: adobe-substance-3d-designer
+        state: restarted
+
+    - name: Notify user of successful update
+      debug:
+        msg: "Adobe Substance 3D Designer has been updated successfully on your Linux system."
