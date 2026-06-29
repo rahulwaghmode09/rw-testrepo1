@@ -1,0 +1,22 @@
+- name: Install update on Windows Server 2016
+  hosts: windows
+  tasks:
+    - name: Navigate to the directory where the update file is located
+      ansible.windows.win_shell:
+        cmd: cd "C:\path\to\update\directory"
+      args:
+        chdir: C:\path\to\update\directory
+
+    - name: Install the update using msiexec
+      ansible.windows.win_shell:
+        cmd: msiexec /i <update_file>
+      args:
+        chdir: C:\path\to\update\directory
+        executable: cmd.exe
+        creates: C:\path\to\update\directory\update_installed.txt
+      register: update_installation
+
+    - name: Check if update installation was successful
+      debug:
+        msg: "Update installation status: {{ update_installation.rc }}"
+      when: update_installation.rc == 0
