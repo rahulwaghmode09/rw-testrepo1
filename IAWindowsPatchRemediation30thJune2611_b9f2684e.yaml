@@ -1,0 +1,14 @@
+- name: Install Windows Server Update
+  hosts: windows
+  tasks:
+    - name: Ensure command prompt is open
+      shell: cmd /c "start cmd"
+      ignore_errors: yes
+
+    - name: Navigate to the directory where the update file is located
+      shell: cd C:\path\to\update\file
+      ignore_errors: yes
+
+    - name: Install the update using msiexec
+      shell: msiexec /i <update_file>
+      ignore_errors: yes
