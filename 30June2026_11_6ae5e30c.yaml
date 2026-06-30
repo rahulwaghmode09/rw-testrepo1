@@ -1,0 +1,15 @@
+- name: Install update on Windows Server 2016
+  hosts: windows
+  tasks:
+    - name: Check if the update file exists
+      win_shell: "dir <update_file_name>"
+      register: update_file_check
+      ignore_errors: yes
+
+    - name: Install the update using msiexec
+      win_shell: "msiexec /i <update_file_name>"
+      when: update_file_check.rc == 0
+
+    - name: Notify if update file is not found
+      win_shell: "echo 'Update file not found in the specified directory.'"
+      when: update_file_check.rc != 0
