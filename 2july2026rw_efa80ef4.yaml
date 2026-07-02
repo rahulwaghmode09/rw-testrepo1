@@ -1,0 +1,16 @@
+- name: Install update on Windows Server 2019
+  hosts: windows
+  tasks:
+    - name: Check if update file exists
+      win_stat:
+        path: C:\path\to\update_file.msi
+      register: update_file_status
+
+    - name: Install the update
+      win_command:
+        cmd: msiexec /i C:\path\to\update_file.msi
+      when: update_file_status.exists == true
+
+    - name: Restart the system
+      win_reboot:
+      when: update_file_status.exists == true
