@@ -1,0 +1,23 @@
+- name: Update Apache CXF to the latest version
+  hosts: windows_server
+  become: yes
+  tasks:
+    - name: Download the latest version of Apache CXF
+      ansible.windows.win_download_url:
+        url: https://cxf.apache.org/downloads/cxf-3.6.4-bin.zip
+        dest: C:\temp\apache-cxf-3.6.4-bin.zip
+        mode: 0644
+
+    - name: Replace the existing version of Apache CXF
+      ansible.windows.win_copy:
+        src: C:\temp\apache-cxf-3.6.4-bin.zip
+        dest: C:\path\to\existing\apache-cxf-version.zip
+        remote_src: yes
+        force: yes
+
+    - name: Unzip the new Apache CXF version
+      ansible.windows.win_unarchive:
+        src: C:\path\to\new\apache-cxf-3.6.4-bin.zip
+        dest: C:\path\to\apache-cxf
+        remote_src: yes
+        file_date: yes
