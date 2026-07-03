@@ -1,0 +1,35 @@
+- name: Update Apache CXF and Restart Service
+  hosts: windows
+  tasks:
+    - name: Download latest Apache CXF version
+      ansible.windows.win_download_url:
+        url: https://www.apache.org/dyn/closer.cgi/cxf/3.6.4/apache-cxf-3.6.4-bin.zip
+        dest: C:\temp\apache-cxf-3.6.4-bin.zip
+        mode: 0644
+
+    - name: Unzip Apache CXF
+      ansible.windows.win_unarchive:
+        src: C:\temp\apache-cxf-3.6.4-bin.zip
+        dest: C:\temp\apache-cxf
+        remote_src: yes
+
+    - name: Replace existing Apache CXF files
+      ansible.windows.win_copy:
+        src: C:\temp\apache-cxf\
+        dest: C:\path\to\existing\apache-cxf\
+        remote_src: yes
+        force: yes
+
+    - name: Restart the service using Apache CXF
+      ansible.windows.win_service:
+        name: ServiceName
+        state: restarted
+
+    - name: Verify service status
+      ansible.windows.win_service_facts:
+        name: ServiceName
+
+    - name: Display service status
+      debug:
+        msg: "Service {{ item.name }} is {{ item.status }}"
+      loop: "{{ service_facts.services }}"
