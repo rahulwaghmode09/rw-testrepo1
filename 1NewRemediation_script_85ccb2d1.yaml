@@ -1,0 +1,24 @@
+- name: Install Windows Server Update
+  hosts: windows
+  become: yes
+  tasks:
+    - name: Navigate to the directory where the update file is located
+      shell: cd C:\path\to\update\file
+      args:
+        chdir: C:\path\to\update\file
+
+    - name: Install the update using msiexec
+      shell: msiexec /i <update_file_name>
+      args:
+        chdir: C:\path\to\update\file
+      register: install_result
+
+    - name: Check if the update installation was successful
+      debug:
+        msg: "Update installed successfully: {{ install_result.stdout }}"
+      when: install_result.rc == 0
+
+    - name: Handle installation failure
+      debug:
+        msg: "Update installation failed: {{ install_result.stderr }}"
+      when: install_result.rc != 0
