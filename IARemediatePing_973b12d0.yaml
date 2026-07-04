@@ -1,0 +1,12 @@
+- name: Ping the target Windows machine
+  hosts: all
+  tasks:
+    - name: Ping the target Windows machine using PowerShell
+      shell: |
+        Write-Host "Pinging 172.20.138.13"
+        ping -n 4 172.20.138.13
+      register: ping_result
+
+    - name: Display ping result
+      debug:
+        msg: "{{ ping_result.stdout }}"
