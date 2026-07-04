@@ -1,12 +1,13 @@
-- name: Ping the target Windows machine
-  hosts: all
+- name: Ping an IP from the Windows host
+  hosts: "{{ target_hosts }}"
+  gather_facts: no
+
   tasks:
-    - name: Ping the target Windows machine using PowerShell
-      shell: |
-        Write-Host "Pinging 172.20.138.13"
+    - name: Ping remote IP
+      ansible.windows.win_shell: |
         ping -n 4 172.20.138.13
       register: ping_result
 
-    - name: Display ping result
+    - name: Show output
       debug:
-        msg: "{{ ping_result.stdout }}"
+        var: ping_result.stdout_lines
